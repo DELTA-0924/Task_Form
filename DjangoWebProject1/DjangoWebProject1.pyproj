@@ -50,8 +50,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\templates\App\index.html" />
-    <Content Include="App\templates\App\done.html" />
+    <Content Include="App\templates\index.html" />
+    <Content Include="App\templates\done.html" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>

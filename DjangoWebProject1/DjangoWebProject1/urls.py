@@ -23,7 +23,8 @@ from App.views import index,done,datalist,clear_database
 urlpatterns = [
     
     path('admin/', admin.site.urls),
-    path('index/', index,name='index'),
+    path('index/', index,name='index'),    
+    path('', index,name='index'),
     path('done/', done,name='done'),
     path('list/', datalist,name='list'),
     path('clean/', clear_database,name='clean_data'),
