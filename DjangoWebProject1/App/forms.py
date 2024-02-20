@@ -1,3 +1,5 @@
+from cProfile import label
+from msilib.schema import CheckBox
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django_countries.fields import CountryField
@@ -8,17 +10,17 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = "__all__"
 
-    Kyrgyz_som = forms.DecimalField(required=True,
-                                      widget=forms.NumberInput(attrs={"id": "currencyA", "name": "currencyA", "oninput": "convertCurrency('A', this.value)"})
-                                      )
-    
+    Kyrgyz_som = forms.DecimalField(
+        required=True,
+        widget=forms.NumberInput(attrs={"id": "currencyA", "name": "currencyA", "oninput": "callTwoFunctions('A', this.value)"})
+    )    
     USD = forms.DecimalField(
         required=True,
-        widget=forms.NumberInput(attrs={"id": "currencyB", "name": "currencyB", "oninput": "convertCurrency('B', this.value)"})
+        widget=forms.NumberInput(attrs={"id": "currencyB", "name": "currencyB", "oninput": "callTwoFunctions('B', this.value)"})
     )
     Euro = forms.DecimalField(
         required=True,
-        widget=forms.NumberInput(attrs={"id": "currencyC", "name": "currencyC", "oninput": "convertCurrency('C', this.value)"})
+        widget=forms.NumberInput(attrs={"id": "currencyC", "name": "currencyC", "oninput": "callTwoFunctions('C', this.value)"})
     )
  
     Confirm_Email = forms.EmailField(required=True)
@@ -38,11 +40,12 @@ class ProfileForm(forms.ModelForm):
        required=False
        )
     Inspired = forms.CharField(
-       widget=forms.Textarea(attrs={"class":"form-control" ,"id":"exampleFormControlTextarea1","rows":"3","placeholder":"What inspired you to give today's gift to the AUCA Fund/Alumni Fund?"}),
+       widget=forms.Textarea(attrs={"id":"Inspired","rows":"3","placeholder":"What inspired you to give today's gift to the AUCA Fund/Alumni Fund?"}),
        max_length=200, 
        required=False
        )
     Comments = forms.CharField(
-        widget=forms.Textarea(attrs={"class":"form-control" ,"id":"exampleFormControlTextarea1","rows":"5","placeholder":"Comments"}),
+        widget=forms.Textarea(attrs={"id":"Comment","rows":"2","placeholder":"Comments"}),
        max_length=100, 
        required=False)
+    Offer= forms.BooleanField(widget=forms.CheckboxInput(attrs={"id":"offer"}))

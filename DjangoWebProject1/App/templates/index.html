@@ -8,102 +8,192 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
-
-
-        #header {
-            background-color: #ccc;
+        .main {
+            background-color: lightblue;
+            padding: 20px 20px;
+            background: #f1f2f3;
+            margin: 40px;
+            border-top: 3px solid #1f3058;
+            border-radius: 4px;
+            width:1100px;
+            
         }
+            .main input {
+                margin: 15px;
+                width: 80%;
+                border-radius: 3px;
+                border: 1px solid #ddd;
+                box-shadow: inset  1px 1px rgba(0,0,0,0.1); 
+            }
 
-        #sidebar {
-            background-color: #ddd;
+            .main label {         
+                font-size: 15px;
+                text-align: right;
+                display: inline-block;
+                width: 150px;
+            }
+        .main select{
+            margin:20px;
+            width:80%
         }
-
-        #main {
-            background-color: #eee;
-            height: max-content;
-            width:900px;
+        figcaption{
             margin-left:150px;
-            padding-top:10px;
-            padding-bottom:100px;
-            padding-left:220px;
         }
-             #main input {
-                margin-bottom: 25px; 
-                width:500px
-            }
-            #main label {
-                display:inline-block;
-            }
-            #footer {
-                background-color: #ccc;
-                margin-left: 150px
-            }
-            #resetbutton{
-                margin-left:700px;
-                margin-bottom:100px;
-            }
+        h3{
+            margin-left:120px;
+        }
+        .main textarea{
+            width:50%;            
+        }
+        .btn_input{
+            margin-left:120px;
+        }
+        .btn_input button {
+            color: white;
+            background-color: #1f3058;
+            border: none;
+            border-radius: 3px;
+            width: 90px;
+            height: 30px;
+        }
+        .block {
+            margin: 15px 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .block label {
+            flex: 1;
+        }
+        .block textarea {
+            flex: 3;
+            border-radius:3px;
+            border:1px solid #ddd;
+            margin-left:35px;
+        }
+        .btn_input button:hover {
+            background-color: #1f3075;
+        }
+        .main input:focus {
+            box-shadow: 0 0 5px 2px rgba(173, 216, 230, 1);
+            outline: none;
+        }
+        .main textarea:focus {
+            box-shadow: 0 0 5px 2px rgba(173, 216, 230, 1);
+            outline: none;
+        }
+        .support_form {
+            display: flex;
+            align-items: center; /* Выравниваем элементы по вертикали */
+            margin-bottom: 10px; /* Добавляем небольшой отступ между блоками */
+        }
+
+
+       
     </style>
 </head>
 <body>
 
     <div class="container mt-5">
-        <form id="form" method="post" action="{%url 'index'%}">
-            {% csrf_token %}
 
-            <hr class="my-4" style="border-width: 3px; border-color: darkslategrey;">
-            <div id="main" class="form-group">
-                <label for="{{ form.Kyrgyz_som.id_for_label }}">Kygyz:</label>
-                {{ form.Kyrgyz_som }}<br />
-                <label for="{{ form.USD.id_for_label }}">USD:</label>
-                {{ form.USD }}<br />
-                <label for="{{ form.Euro.id_for_label }}">Euro:</label>
-                {{ form.Euro }}<br />
+        <form id="form" method="post" action="{%url 'index'%}">
+            <div class="main">
+                <h3>1. Enter gift amount</h3>
+                {% csrf_token %}
+                <div class="btn_input">
+                    <button type="button" onclick="fillFields('20' )">20 USD</button>
+                    <button type="button" onclick="fillFields('50' )">50 USD</button>
+                    <button type="button" onclick="fillFields('100' )">100 USD</button>
+                    <button type="button" onclick="fillFields('500' )">500 USD</button>
+                    <button type="button" onclick="fillFields('1000' )">1000 USD</button>
+                    <input style="width:100px" type="number" id="another" name="another" oninput="callTwoFunctions('D', this.value)" placeholder="other(usd)">
+                </div>
+                <figure>
+
+                    <label for="{{ form.Kyrgyz_som.id_for_label }}">Kygyz<span style="color:red">*</span></label>
+                    {{ form.Kyrgyz_som }}<br />
+                    <label for="{{ form.USD.id_for_label }}">USD**</label>
+                    {{ form.USD }}<br />
+                    <label for="{{ form.Euro.id_for_label }}">Euro**</label>
+                    {{ form.Euro }}<br />
+                    <figcaption>
+                        <span style="font-size:15px">
+                            PAYMENT SUMMARY<br />
+                            <span style="font-weight:bold">You will be charged <span id="outputText"></span>  KGS. </span>This is a one-time gift.<br /><br />
+                            ** According to the requirements of the legislation of the Kyrgyz Republic, the amount of your contribution can only be withdrawn in the national currency - Kyrgyz Som (KGS).<br /><br /><span style="font-weight:bold;">
+                                At the moment we accept payments only with a VISA card and Kyrgyz national ELCART payment card.<br /><br />
+                            </span>
+                            Visa payment option details: please keep in mind that due to the difference of exchange rate between Visa payment system and Kyrgyz National Bank, your account might be debited slightly more than your original payment.
+                        </span>
+                    </figcaption>
+
+                </figure>
             </div>
-            <hr class="my-4" style="border-width: 3px; border-color: darkslategrey;">
-            <div id="main" class="form-group">
-                <label for="{{ form.Fund.id_for_label }}">Fund Category:</label>
+            <div class="main">
+                <h3>2. Select Fund category</h3>
+                <label for="{{ form.Fund.id_for_label }}">Fund Category<span style="color:red">*</span></label>
                 {{ form.Fund }}
             </div>
-            <hr class="my-4" style="border-width: 3px; border-color: darkslategrey;">
-            <div id="main" class="form-group">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+            <div class="main">
+                <h3>3. Enter Your Contact Information</h3>
+                <label for="exampleFormControlInput1" >Email <span style="color:red;font-weight:bold ">*</span></label>
                 {{form.email}}<br />
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <label for="exampleFormControlInput1">Confirm Email <span style="color: red;font-weight:bold">*</span></label>
                 {{form.Confirm_Email}}<br />
-                <label for="{{ form.First_name.id_for_label }}">First Name:</label>
+                <label for="{{ form.First_name.id_for_label }}">First Name <span style="color: red; font-weight: bold">*</span></label>
                 {{ form.First_name }}<br />
-                <label for="{{ form.Last_name.id_for_label }}">LastName:</label>
+                <label for="{{ form.Last_name.id_for_label }}">LastName <span style="color: red; font-weight: bold">*</span></label>
                 {{ form.Last_name }}<br />
-                <label for="{{ form.Phone_number.id_for_label }}">Phone number:</label>
-                {{ form.Phone_number }}<br />
-                <label for="{{ form.Country.id_for_label }}">Counrty:</label>
+                <label for="{{ form.Country.id_for_label }}">Counrty</label>
                 {{ form.Country }}
+                <figure>
+                    <label for="{{ form.Phone_number.id_for_label }}">Phone number:</label>
+                    {{ form.Phone_number }}<br />
+                    <figcaption>
+                        <span style="font-size:15px">
+                            Format: + country code—area code—phone number<br />
+                            Example: +1-415-5552671
+                        </span>
+                    </figcaption>
+                </figure>
             </div>
-            <hr class="my-4" style="border-width: 3px; border-color: darkslategrey;">
-            <div id="footer" class="mb-3">
+
+            <div class="main">
                 <p><h3>Please give your comments</h3></p>
                 <br />
-                {{ form.Inspired }}
-                {{ form.Comments }}
+                <div class="block">
+                    <label for="Inspired" class="form-label">What inspired you to give today's gift to the AUCA Fund/Alumni Fund?</label>
+                    {{ form.Inspired }}<br>
+                    <br />
+                </div>
+                <div class="block">
+                    <label for="{{ form.Comments.id_for_label }}">Comments</label>
+                    {{ form.Comments }}
+                </div>
             </div>
-
-
-
-
-
-            <
-            
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <div id="resetbutton">
-                <button type="button" class="btn btn-primary" onclick="clearForm()">Clear Fields</button>
+            <div style="margin: 20px; margin-left: 190px; display: inline-block;">
+                <div class="support_form">
+                    <label for="offer">Public offer<span style="color:red">*</span></label>
+                    {{form.Offer}}
+                    <label for="offer"><span style="font-size:14px;"> I have read and agree with the Public Offer</span></label><br />
+                </div>
+                <div style=" margin-left: 80px">
+                    <span style="font-weight:bold;font-size:15px">
+                        If you have questions, please contact the Development office,<br />
+                        by phone at +996-312-915000 ext. 104 or email development@auca.kg.
+                    </span>
+                </div>
             </div>
-
-
+            <div style="margin-left:190px;">
+                <button type="submit" style="background-color: red; width: 110px; height: 50px; border-radius: 5px; color: white; border: none;display:inline-block">Submit</button>
+                <div id="resetbutton" style="display: inline-block">
+                    <button type="button" style="background-color:red;width:110px;height:50px;border-radius:5px;color:white;border:none;" onclick="clearForm()">Clear Fields</button>
+                </div>
+            </div>
         </form>
     </div>
 
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -114,42 +204,49 @@
     </script>
     <script>
         function convertCurrency(source, value) {
-            
-            var rateA = 1.0; 
-            var rateB = 89.0; 
-            var rateC = 100.0; 
-            
-          
-
-            
+            var rateA = 1.0;
+            var rateB = 89.0;
+            var rateC = 100.0;
             switch (source) {
                 case 'A':
-                    document.getElementById('currencyB').value = (value * rateB / rateA).toFixed(2);
-                    document.getElementById('currencyC').value = (value * rateC / rateA).toFixed(2);
-                    
-                    // document.getElementById('currencyD').value = (value * rateD / rateA).toFixed(2);
+                    document.getElementById('currencyB').value = (value / rateB).toFixed(2);
+                    document.getElementById('currencyC').value = (value / rateC).toFixed(2);
                     break;
                 case 'B':
-                    document.getElementById('currencyA').value = (value * rateA / rateB).toFixed(2);
-                    document.getElementById('currencyC').value = (value * rateC / rateB).toFixed(2);
-                    
-                     //document.getElementById('currencyD').value = (value * rateD / rateB).toFixed(2);
+                    document.getElementById('currencyA').value = (value * rateB).toFixed(2);
+                    document.getElementById('currencyC').value = (value / 1.08).toFixed(2);
                     break;
                 case 'C':
-                    document.getElementById('currencyA').value = (value * rateA / rateC).toFixed(2);
-                    document.getElementById('currencyB').value = (value * rateB / rateC).toFixed(2);
-                    // Обновление значения поля D в зависимости от курса валюты D к сомам
-                     //document.getElementById('currencyD').value = (value * rateD / rateC).toFixed(2);
+                    document.getElementById('currencyA').value = (value * rateC).toFixed(2);
+                    document.getElementById('currencyB').value = (value * 1.08).toFixed(2);
                     break;
                 case 'D':
-                    
-                     //document.getElementById('currencyA').value = (value * rateA / rateD).toFixed(2);
-                     //document.getElementById('currencyB').value = (value * rateB / rateD).toFixed(2);
-                     //document.getElementById('currencyC').value = (value * rateC / rateD).toFixed(2);
+                    document.getElementById('currencyA').value = (value * rateB).toFixed(2);
+                    document.getElementById('currencyC').value = (value / 1.08).toFixed(2);
+                    document.getElementById('currencyB').value = (value * 1).toFixed(2);
                     break;
                 default:
                     break;
             }
+        }
+    </script>
+    <script>
+
+        function fillFields(value1) {
+            document.getElementById('currencyB').value = '';
+            document.getElementById('another').value = '';
+            document.getElementById('currencyB').value = value1;
+            convertCurrency('B', value1)
+        }
+    </script>
+    <script>
+        function showOutput() {
+            var input = document.getElementById("currencyA").value;
+            document.getElementById("outputText").innerText = input;
+        }
+        function callTwoFunctions(currency, value) {
+            convertCurrency(currency, value);
+            showOutput();
         }
     </script>
 </body>

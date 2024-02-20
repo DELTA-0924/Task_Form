@@ -20,3 +20,4 @@ class Profile(models.Model):
     Country = CountryField(blank_label='Select Country', blank=True, null=True)
     Inspired=models.TextField(max_length=200,blank=True,null=True)
     Comment=models.TextField(max_length=100,blank=True,null=True)
+    Public_offer=models.BooleanField(default=False)
